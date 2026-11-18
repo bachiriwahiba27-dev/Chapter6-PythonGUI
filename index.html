@@ -206,7 +206,14 @@ print(tk.TkVersion)</pre><button class="btn" id="chk" style="margin-top:8px">▶
 <text class="sx" x="450" y="292" text-anchor="middle">Row + column = position</text><text class="sm" x="450" y="312" text-anchor="middle">row · column · columnspan</text><text class="sm" x="450" y="332" text-anchor="middle">Tables and forms</text>
 <text class="sx" x="750" y="292" text-anchor="middle">x, y = position</text><text class="sm" x="750" y="312" text-anchor="middle">x · y (pixels)</text><text class="sm" x="750" y="332" text-anchor="middle">Fixed pixel positions</text></svg></div>
 
+<div class="card" style="margin-top:16px"><h3>Layout managers in detail: the parameters that matter</h3>
+<div><button class="btn pri" data-l="pack">pack()</button><button class="btn" data-l="grid">grid()</button><button class="btn" data-l="place">place()</button><button class="btn" data-l="mix">Mixing styles</button></div>
+<div id="ld" style="margin-top:10px"></div></div>
 
+<div class="card" style="margin-top:16px"><h3>Common layouts</h3>
+<div id="lrb"></div>
+<div class="grid" style="margin-top:10px"><div class="stage"><div class="win" style="width:320px"><div class="tb"><span id="lrt"></span><span>—  ▢  ✕</span></div><div class="body" id="lrp"></div></div></div>
+<div><pre id="lrc"></pre><p class="why" id="lrn"></p></div></div></div>
 
 </section>
 
@@ -228,7 +235,11 @@ print(tk.TkVersion)</pre><button class="btn" id="chk" style="margin-top:8px">▶
 <tr><td><code>&lt;Key&gt;</code>, <code>&lt;Double-Button-1&gt;</code></td><td>any key / double click</td><td>Other examples</td></tr></table></div>
 <ul style="margin-top:10px"><li><b>1. Pick the event</b>: the sequence has the form <code>&lt;modifier-type-detail&gt;</code>, for example <code>&lt;Button-1&gt;</code> = type Button, detail 1 (left button).</li>
 <li><b>2. Give a function</b>: a named function or a <code>lambda</code>. It receives one argument, the event. If you do not need it, write <code>lambda e: convert()</code>.</li>
-<li><b>command vs bind</b>: <code>command=</code> only handles a button click, without an event object. <code>bind()</code> works on any widget and any event, and can add several handlers with <code>add="+"</code>.</li></ul></div>
+<li><b>command vs bind</b>: <code>command=</code> only handles a button click, without an event object. <code>bind()</code> works on any widget and any event, and can add several handlers with <code>add="+"</code>.</li></ul>
+<div class="grid" style="margin-top:12px"><pre id="bx"></pre>
+<div><div id="ev" class="con" tabindex="0" style="cursor:pointer;min-height:120px"><b>Event playground</b><br>Move the mouse here, click, then press a key.</div>
+<p class="why">The box shows the event object that Tkinter passes to your function.</p></div></div>
+</div>
 <div class="tip">💡 float() raises ValueError on invalid text; try / except keeps the window alive.</div></section>
 
 </main>
@@ -246,6 +257,7 @@ function go(i){
   $("#prog").style.width=(done.size/names.length*100)+"%";
 }
 names.forEach((n,i)=>{const b=document.createElement("button");b.textContent=n;b.onclick=()=>go(i);$("#nav").appendChild(b)});
+go(0); /* open on the Introduction immediately, whatever happens later in the script */
 
 /* intro */
 const CMP={cli:['<div class="con" style="margin:0;min-height:130px"><b>$</b> python convert.py<br>Celsius? <b>25</b><br>77.0 °F</div>',"Text only: inputs come in a fixed order, and changing a value means restarting the program."],
@@ -258,7 +270,7 @@ const ST=[["Import","Load the library once, usually under the short name tk.",[0
 function ua(i){$("#ac").innerHTML=AL.map((l,j)=>`<div class="ln${ST[i][2].includes(j)?" on":""}">${hl(l)}</div>`).join("");$("#ae").textContent=ST[i][1];$$("#steps button").forEach((b,j)=>b.classList.toggle("pri",j===i))}
 ST.forEach((s,i)=>{const b=document.createElement("button");b.className="btn";b.textContent=(i+1)+". "+s[0];b.onclick=()=>ua(i);$("#steps").appendChild(b)});ua(0);
 const GL={window:"The main container, created with tk.Tk().",widget:"A visual element: Label, Button, Entry, Text…",layout:"How widgets are arranged: pack(), grid() or place().",event:"Something the user does: a click, a key press, a mouse move.",callback:"A function Tkinter calls when an event happens, e.g. command=say_hello.",mainloop:"The loop that keeps the window alive and dispatches events."};
-Object.keys(GL).forEach(k=>{const b=document.createElement("button");b.className="btn";b.textContent=k;b.onclick=()=>{$("#gl").innerHTML="<b>"+k+"</b> : "+GL[k]};$("#chips").appendChild(b)});
+Object.keys(GL).forEach(k=>{const b=document.createElement("button");b.className="btn";b.textContent=k;b.onclick=()=>{const g=$("#gl");if(g)g.innerHTML="<b>"+k+"</b> : "+GL[k]};$("#chips").appendChild(b)});
 
 /* 1 window */
 function u1(){
@@ -521,6 +533,14 @@ $("#ev").addEventListener("mousedown",e=>{$("#ev").innerHTML="<b>&lt;Button-1&gt
 $("#ev").addEventListener("keydown",e=>{e.preventDefault();const k=e.key==="Enter"?"Return":e.key===" "?"space":e.key;$("#ev").innerHTML="<b>&lt;Key&gt;</b><br>event.keysym = '"+esc(k)+"'<br>event.char = '"+esc(e.key.length===1?e.key:"")+"'"});
 $("#ev").addEventListener("mouseenter",()=>{$("#ev").focus()});
 go(0);
+</script>
+<script>
+  // always open the page at the Introduction
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  window.addEventListener('load', function () {
+    if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+    window.scrollTo(0, 0);
+  });
 </script>
 </body>
 </html>
